@@ -70,7 +70,7 @@ var jekyllMapping = (function () {
                 bounds.extend(l);
                 jekyllMapListen(m, s);
             }
-            this.map.zoomToMaxExtent(/*bounds*/)
+            this.map.zoomToExtent(bounds)
         },
         indexMap: function () {
             this.plotArray(settings.pages);
@@ -88,7 +88,7 @@ var jekyllMapping = (function () {
             
             if (settings.layers) {
                 while (settings.layers.length > 0){
-                    var m = new OpenLayers.Layer.Vector("KML", {
+                    var m = new OpenLayers.Layer.Vector("KML" + settings.layers.length, {
                             strategies: [new OpenLayers.Strategy.Fixed()],
                             protocol: new OpenLayers.Protocol.HTTP({
                                 url: settings.layers.pop(),
@@ -109,6 +109,20 @@ var jekyllMapping = (function () {
 
             this.markers = new OpenLayers.Layer.Markers("Markers"),
             this.map = new OpenLayers.Map("jekyll-mapping");
+
+            // Automatically update the viewport when a layer is added.
+            this.map.events.register("addlayer", this.map, function(me) {
+              me.layer.events.register("loadend", me.layer, function(le) {
+
+                if (!le.object || !le.object.getDataExtent())
+                  return;
+
+                var bounds = me.object.calculateBounds() || le.object.getDataExtent();
+                bounds.extend(le.object.getDataExtent();
+                me.object.zoomToExtent(le.object.getDataExtent(), true);
+              });
+            });
+
             this.map.addLayer(new OpenLayers.Layer.OSM());
             this.map.addLayer(this.markers);
 
