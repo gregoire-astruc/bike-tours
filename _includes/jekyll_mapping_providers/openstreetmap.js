@@ -21,7 +21,7 @@ var jekyllMapping = (function () {
                 bounds.extend(l);
                 jekyllMapListen(m, s);
             }
-            this.map.zoomToExtent(bounds)
+            this.map.zoomToMaxExtent(/*bounds*/)
         },
         indexMap: function () {
             this.plotArray(settings.pages);
