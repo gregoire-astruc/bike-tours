@@ -69,10 +69,6 @@ var jekyllMapping = (function () {
             }
         }        
     };
-<<<<<<< Updated upstream
-    return that;
-=======
     return obj
->>>>>>> Stashed changes
 }());
 </script>
