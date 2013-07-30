@@ -69,7 +69,7 @@ var jekyllMapping = (function () {
                   return;
 
                 var bounds = me.object.calculateBounds() || le.object.getDataExtent();
-                bounds.extend(le.object.getDataExtent();
+                bounds.extend(le.object.getDataExtent());
                 me.object.zoomToExtent(le.object.getDataExtent(), true);
               });
             });
