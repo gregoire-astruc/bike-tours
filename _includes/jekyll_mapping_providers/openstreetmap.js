@@ -51,6 +51,7 @@ var jekyllMapping = (function () {
                             })
                         });
                     this.map.addLayer(m)
+                    m.redraw();
                 }
             }
         },
