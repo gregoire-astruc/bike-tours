@@ -15,9 +15,13 @@ module Jekyll
                 if @config['dimensions']
                     @width = @config['dimensions']['width']
                     @height = @config['dimensions']['height']
+                    @width_unit = @config['dimensions']['width_unit']
+                    @height_unit = @config['dimensions']['height_unit']
                 else
-                    @width = '600'
-                    @height = '400'
+                    @width = '100'
+                    @height = '350'
+                    @width_unit = '%'
+                    @height_unit = 'px'
                 end
             else
                 @width = text.split(",").first.strip
@@ -33,7 +37,7 @@ module Jekyll
                 if @engine == 'google_static'
                     return "<img src=\"http://maps.googleapis.com/maps/api/staticmap?markers=#{latitude},#{longitude}&size=#{@width}x#{@height}&zoom=#{@zoom}&sensor=false\">"
                 elsif (@engine == 'google_js' || @engine == 'openstreetmap')
-                    return "<div id=\"jekyll-mapping\" style=\"height:#{@height}px;width:#{@width}px;\"></div>"
+                    return "<div id=\"jekyll-mapping\" style=\"height:#{@height}#{@height_unit};width:#{@width}#{@width_unit};\"></div>"
                 end
             end
         end
@@ -53,8 +57,10 @@ module Jekyll
                 @width = @data['dimensions']['width']
                 @height = @data['dimensions']['height']
             else
-                @width = '600'
-                @height = '400'
+                @width = '100'
+                @height = '300'
+                @width_unit = '%'
+                @height_unit = 'px'
             end
             if not text.empty?
                 dimensions = text.split(":").first.strip
@@ -102,7 +108,7 @@ module Jekyll
 
             if (@engine == 'google_js')
                 return "
-                    <div id='jekyll-mapping' style='height:#{@height}px;width:#{@width}px;'>
+                    <div id='jekyll-mapping' style='height:#{@height}#{@height_unit};width:#{@width}#{@width_unit};'>
                     </div>
                     <script type='text/javascript'>
                         window.onload = function () { jekyllMapping.loadScript(#{@data.to_json}); };
@@ -111,7 +117,7 @@ module Jekyll
             end   
             if (@engine == 'openstreetmap')
                 return "
-                    <div id='jekyll-mapping' style='height:#{@height}px;width:#{@width}px;'>
+                    <div id='jekyll-mapping' style='height:#{@height}#{@height_unit};width:#{@width}#{@width_unit};'>
                     </div>
                     <script type='text/javascript'>
                         window.onload = function () { jekyllMapping.mappingInitialize(#{@data.to_json}); };
