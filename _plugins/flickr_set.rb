@@ -61,9 +61,15 @@ module Jekyll
       html = "<#{@config['gallery_tag']} class=\"#{@config['gallery_class']}\">"
 
       photos.each do |photo|
-        html << "<li class=\"span3\"><a href=\"#{photo.url(@config['a_href'])}\" target=\"#{@config['a_target']}\" class=\"#{@config['a_class']}\">"
-        html << "  <img src=\"#{photo.thumbnail_url}\" rel=\"#{@config['image_rel']}\"/>"
-        html << "</a></li>"
+        html << "<li class=\"span3\">"
+        html << "  <div class=\"thumbnail\">"
+        html << "    <a href=\"#{photo.url(@config['a_href'])}\" target=\"#{@config['a_target']}\">"
+        html << "      <img src=\"#{photo.thumbnail_url}\" rel=\"#{@config['image_rel']}\"/>"
+        html << "    </a>"
+        html << "    <h3>#{photo.title}</h3>"
+        html << "    <p>#{photo.description._content}</p>"
+        html << "  </div>"
+        html << "</li>"
       end
 
       html << "</#{@config['gallery_tag']}>"
@@ -82,7 +88,7 @@ module Jekyll
     end
 
     def json
-      uri  = URI.parse("http://api.flickr.com/services/rest/?method=flickr.photosets.getPhotos&photoset_id=#{@set}&api_key=#{@config['api_key']}&format=json&nojsoncallback=1")
+      uri  = URI.parse("http://api.flickr.com/services/rest/?method=flickr.photosets.getPhotos&photoset_id=#{@set}&api_key=#{@config['api_key']}&format=json&nojsoncallback=1&extras=description")
       http = Net::HTTP.new(uri.host, uri.port)
       return http.request(Net::HTTP::Get.new(uri.request_uri)).body
     end
