@@ -67,7 +67,7 @@ module Jekyll
         html << "      <img src=\"#{photo.thumbnail_url}\" rel=\"#{@config['image_rel']}\"/>"
         html << "    </a>"
         html << "    <h3>#{photo.title}</h3>"
-        html << "    <p>#{photo.description._content}</p>"
+        html << "    <p>#{photo.description}</p>"
         html << "  </div>"
         html << "</li>"
       end
@@ -81,7 +81,7 @@ module Jekyll
       @photos = Array.new
 
       JSON.parse(json)['photoset']['photo'].each do |item|
-        @photos << FlickrPhoto.new(item['title'], item['id'], item['secret'], item['server'], item['farm'], @config['image_size'])
+        @photos << FlickrPhoto.new(item['title'], item['description']['_content'], item['id'], item['secret'], item['server'], item['farm'], @config['image_size'])
       end
 
       @photos.sort
@@ -96,11 +96,12 @@ module Jekyll
 
   class FlickrPhoto
 
-    def initialize(title, id, secret, server, farm, thumbnail_size)
+    def initialize(title, description, id, secret, server, farm, thumbnail_size)
       @title          = title
       @url            = "http://farm#{farm}.staticflickr.com/#{server}/#{id}_#{secret}.jpg"
       @thumbnail_url  = url.gsub(/\.jpg/i, "_#{thumbnail_size}.jpg")
       @thumbnail_size = thumbnail_size
+      @description    = description
     end
 
     def title
