@@ -1,9 +1,156 @@
----
-layout: default
-title: Feuille de route
-----
-<div class="row-fluid">
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Feuille de route</title>
+  <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container-fluid">
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </a>
+        <a class="brand" href="/">
+          <i class="icon-globe icon-large"></i>
+          Moto Tours
+        </a>
+        <div class="nav-collapse collapse">
+          <ul class="nav">
+            <li>
+              <a href="/roadmap.html" title="Feuille de route">
+                <i class="icon-road"></i>
+                Feuille de route
+              </a>
+            </li>
+            <li>
+              <a href="/photos.html" title="Photos">
+                <i class="icon-camera"></i>
+                Photos
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid" style="padding-top: 50px">
+    <div class="row-fluid">
+      <div class="span2">
+      </div>
+      <div class="span10">
+        <div class="row-fluid">
   <div class="span12">
     <iframe height='300' style="width: 100%;" frameborder='0' src='https://docs.google.com/spreadsheet/pub?key=0AuTJLr1nFGJjdGZheXFBZWNMX2Z6ejBGZ3E1SWVZMWc&output=html&widget=true'></iframe>
   </div>
 </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+  
+    
+            <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
+<script type="text/javascript">
+var jekyllMapping = (function () {
+    'use strict';
+    var settings;
+    var obj = {
+        plotArray: function(locations) {
+            function jekyllMapListen (m, s) {
+                if (s.link) {
+                    m.events.register('click', m, function() {
+                        window.location.href = s.link;
+                    });
+                }
+            }
+            var s, l, m, bounds = new OpenLayers.Bounds();
+            while (locations.length > 0) {
+                s = locations.pop();
+                l = new OpenLayers.LonLat(s.longitude, s.latitude).transform( new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
+                m = new OpenLayers.Marker(l)
+                this.markers.addMarker(m)
+                bounds.extend(l);
+                jekyllMapListen(m, s);
+            }
+            this.map.zoomToExtent(bounds)
+        },
+        indexMap: function () {
+            this.plotArray(settings.pages);
+        },
+        pageToMap: function () {
+            if (typeof(settings.latitude) !== 'undefined' && typeof(settings.longitude) !== 'undefined') {
+                this.center = new OpenLayers.LonLat(settings.longitude, settings.latitude).transform( new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
+                this.map.setCenter(this.center, settings.zoom);
+                this.markers.addMarker(new OpenLayers.Marker(this.center));
+            }     
+
+            if (settings.locations instanceof Array) {
+                this.plotArray(settings.locations);
+            }
+            
+            if (settings.layers) {
+                while (settings.layers.length > 0){
+                    var m = new OpenLayers.Layer.Vector("KML" + settings.layers.length, {
+                            strategies: [new OpenLayers.Strategy.Fixed()],
+                            protocol: new OpenLayers.Protocol.HTTP({
+                                url: settings.layers.pop(),
+                                format: new OpenLayers.Format.KML({
+                                    extractStyles: true,
+                                    extractAttributes: true,
+                                    maxDepth: 2
+                                })
+                            })
+                        });
+                    this.map.addLayer(m)
+                    m.redraw();
+                }
+            }
+        },
+        mappingInitialize: function (set) {
+            settings = set;
+
+            this.markers = new OpenLayers.Layer.Markers("Markers"),
+            this.map = new OpenLayers.Map("jekyll-mapping");
+
+            // Automatically update the viewport when a layer is added.
+            this.map.events.register("addlayer", this.map, function(me) {
+              me.layer.events.register("loadend", me.layer, function(le) {
+
+                if (!le.object || !le.object.getDataExtent())
+                  return;
+
+                var bounds = me.object.calculateBounds() || le.object.getDataExtent();
+                bounds.extend(le.object.getDataExtent());
+                me.object.zoomToExtent(le.object.getDataExtent(), true);
+              });
+            });
+
+            this.map.addLayer(new OpenLayers.Layer.OSM());
+            this.map.addLayer(this.markers);
+
+            if (settings.pages) {
+                this.indexMap();
+            } else {
+                this.pageToMap();
+            }
+        }        
+    };
+    return obj
+}());
+</script>
+
+    
+    
+
+
+</body>
+</html>
