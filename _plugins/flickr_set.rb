@@ -51,6 +51,7 @@ module Jekyll
       @config['gallery_class'] ||= 'gallery'
       @config['a_href']        ||= nil
       @config['a_target']      ||= '_blank'
+      @config['a_class']       ||= 'thumbnail'
       @config['image_rel']     ||= ''
       @config['image_size']    ||= 's'
       @config['api_key']       ||= ''
@@ -60,7 +61,7 @@ module Jekyll
       html = "<#{@config['gallery_tag']} class=\"#{@config['gallery_class']}\">"
 
       photos.each do |photo|
-        html << "<a href=\"#{photo.url(@config['a_href'])}\" target=\"#{@config['a_target']}\">"
+        html << "<a href=\"#{photo.url(@config['a_href'])}\" target=\"#{@config['a_target']}\" class=\"#{@config['a_class']}\">"
         html << "  <img src=\"#{photo.thumbnail_url}\" rel=\"#{@config['image_rel']}\"/>"
         html << "</a>"
       end
