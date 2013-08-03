@@ -1,3 +1,5 @@
 exclude: [CNAME, deploy.sh]
 mapping:
   provider: openstreetmap
+flickr_set:
+  api_key: f7fa361ffa8fc9c415b56f0542cdbc1a
