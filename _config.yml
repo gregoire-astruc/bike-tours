@@ -4,5 +4,5 @@ mapping:
 flickr_set:
   api_key: f7fa361ffa8fc9c415b56f0542cdbc1a
   image_size: m
-  gallery_tag: div
-  gallery_class: span12
+  gallery_tag: ul
+  gallery_class: thumbnails

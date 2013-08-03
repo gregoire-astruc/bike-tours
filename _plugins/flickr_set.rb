@@ -61,9 +61,9 @@ module Jekyll
       html = "<#{@config['gallery_tag']} class=\"#{@config['gallery_class']}\">"
 
       photos.each do |photo|
-        html << "<a href=\"#{photo.url(@config['a_href'])}\" target=\"#{@config['a_target']}\" class=\"#{@config['a_class']}\">"
+        html << "<li class=\"span3\"><a href=\"#{photo.url(@config['a_href'])}\" target=\"#{@config['a_target']}\" class=\"#{@config['a_class']}\">"
         html << "  <img src=\"#{photo.thumbnail_url}\" rel=\"#{@config['image_rel']}\"/>"
-        html << "</a>"
+        html << "</a></li>"
       end
 
       html << "</#{@config['gallery_tag']}>"
