@@ -112,6 +112,10 @@ module Jekyll
       return (size_override ? @thumbnail_url.gsub(/_#{@thumbnail_size}.jpg/i, "_#{size_override}.jpg") : @url)
     end
 
+    def description
+      return @description
+    end
+
     def thumbnail_url
       return @thumbnail_url
     end
