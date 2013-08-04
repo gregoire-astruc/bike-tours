@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title>Tours Moto</title>
+  <title>Le départ</title>
   <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
   <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
 </head>
@@ -53,29 +53,27 @@
         </div>
       </div>
       <div class="span10">
-        <div class="row-fluid">
-  <div class="span12">
-    
-                    <div id='jekyll-mapping' style='height:300px;width:100%;'>
-                    </div>
-                    <script type='text/javascript'>
-                        window.onload = function () { jekyllMapping.mappingInitialize({"provider":"openstreetmap","pages":[]}); };
-                    </script>
-                    
-  </div>
+        <div class="page-header">
+  <h1>Le départ
+    <small>04 Aug 2013</small>
+  </h1>
 </div>
-
 <div class="row-fluid">
-  <div class="page-header">
-    <h1>Le départ
-      <small>2013-08-04 00:00:00 +0200</small>
-    </h1>
+  <div class="span6">
+    <div id="jekyll-mapping" style="height:350px;width:100%;"></div>
   </div>
-  <div class="span12">
-    <p><p>Aujourd&#8217;hui c&#8217;est le <strong>grand départ</strong> pour ce petit périple en France.</p></p>
+  <div class="span6">
+    <p>Aujourd&#8217;hui c&#8217;est le <strong>grand départ</strong> pour ce petit périple en France.</p>
+
+<p>Le trajet me mènera sur quelques 1300 kilomètres et des poussières dans un voyage autour du sud-est de la France.</p>
+
+<p>Chaque post sera composée d&#8217;une petite carte comme ci-contre où je devrais mettre mes traces GPS du dernier voyage.</p>
+
+<p>Les photos sont disponibles sur <a href='http://www.flickr.com/photos/99576574@N05/sets/72157634911437537/'>mon Flickr</a> (fallait bien changer un peu de picasa ;)) et sur la <a href='/photos.html'>gallerie</a>.</p>
+
+<p>Sur la partie gauche, vous aurez ma géolocalisation (à la ville près), ainsi que la liste des articles.</p>
   </div>
 </div>
-
 
       </div>
     </div>
@@ -175,6 +173,12 @@ var jekyllMapping = (function () {
 }());
 </script>
 
+    
+    
+    
+            <script type="text/javascript">
+                $(function () { jekyllMapping.mappingInitialize({"provider":"openstreetmap","layers":["/kmls/roadtrip.kml"]}) });
+            </script>
     
     
 
