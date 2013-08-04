@@ -42,12 +42,15 @@
   <div class="container-fluid" style="padding-top: 50px">
     <div class="row-fluid">
       <div class="span2">
-        <ul class="nav nav-list">
-          <li class="nav-header">Articles</li>
-          {% for post in site.posts %}
-          <li><a href="{{ post.url }}">{{ post.title }}</a></li>
-          {% endfor %}
-        </ul>
+        <iframe src="http://latitude.google.com/latitude/apps/badge/api?user=-5113980892067711575&amp;type=iframe&amp;maptype=roadmap&amp;hl=fr" height="300" frameborder="0" style="width: 100%"></iframe>
+        <div class="well well-small">
+          <ul class="nav nav-list">
+            <li class="nav-header">Articles</li>
+            {% for post in site.posts %}
+            <li><a href="{{ post.url }}">{{ post.title }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
       </div>
       <div class="span10">
         {{ content }}
