@@ -1,20 +1,21 @@
 ---
 layout: default
 title: Tours Moto
-mapping:
-  layers:
-    - kmls/sample.kml
 ---
 <div class="row-fluid">
   <div class="span12">
-    {% render_map %}
+    {% render_index_map %}
   </div>
 </div>
+{% for post in site.posts %}
 <div class="row-fluid">
+  <div class="page-header">
+    <h1>{{ post.title }}
+      <small>{{ post.date }}</small>
+    </h1>
+  </div>
   <div class="span12">
-    <div class="hero-unit">
-      <h1>Mes virées en moto</h1>
-      <p><em>Prochainement...</em></p>
-    </div>
+    <p>{{ post.excerpt }}</p>
   </div>
 </div>
+{% endfor %}
