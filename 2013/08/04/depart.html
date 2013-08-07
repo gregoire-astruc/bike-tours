@@ -97,6 +97,39 @@
 <script type="text/javascript">
 var jekyllMapping = (function () {
     'use strict';
+    OpenLayers.Format.Flickr = OpenLayers.Class(OpenLayers.Format, {
+      read: function(obj) {
+        if(obj.stat === 'fail') {
+          throw new Error(
+            ['Flickr failure response (',
+             obj.code,
+             '): ',
+             obj.message].join(''));
+        }
+        if(!obj || !obj.photoset ||
+           !OpenLayers.Util.isArray(obj.photoset.photo)) {
+          throw new Error(
+            'Unexpected Flickr response');
+        }
+        var photos = obj.photoset.photo, photo,
+          x, y, point,
+          feature, features = [];
+        for(var i=0,l=photos.length; i<l; i++) {
+          photo = photos[i];
+          x = photo.longitude;
+          y = photo.latitude;
+          point = new OpenLayers.Geometry.Point(x, y);
+          feature = new OpenLayers.Feature.Vector(point, {
+            title: photo.title,
+            thumbnail: photo.url_t,
+            image: photo.url_o
+          });
+          console.log(feature);
+          features.push(feature);
+        }
+        return features;
+      }
+    });
     var settings;
     var obj = {
         plotArray: function(locations) {
@@ -146,8 +179,40 @@ var jekyllMapping = (function () {
                             })
                         });
                     this.map.addLayer(m)
-                    m.redraw();
                 }
+            }
+
+            if (settings.photosets) {
+              while (settings.photosets.length > 0) {
+                var id = settings.photosets.pop();
+                var photoset = new OpenLayer.Vector("Photoset #" + id, {
+                  protocol: new OpenLayers.Protocol.Script({
+                    url: "http://api.flickr.com/services/rest/",
+                    callbackKey: "jsoncallback",
+                    params: {
+                      method: "flickr.photosets.getPhotos",
+                      api_key: "f7fa361ffa8fc9c415b56f0542cdbc1a",
+                      photoset_id: id,
+                      extras: "geo,url_t,url_o",
+                      format: "json"
+                    },
+                    format: new OpenLayers.Format.Flickr(),
+                  }),
+                  strategies: [new Openlayers.Strategy.Fixed()],
+                  styleMap: new OpenLayers.StyleMap({
+                    "default": new OpenLayers.Style({ pointRadius: 10, externalGraphic: "${thumbnail}" }),
+                  }),
+                });
+
+                var popupControl = new OpenLayers.Control.SelectFeature(photoset, {
+                  onSelect: function(feature) { window.open(feature.attributes.image); }
+                }); 
+                this.map.addControl(popupControl);
+            
+                popupControl.activate();
+      
+                this.map.addLayer(photoset);
+              }
             }
         },
         mappingInitialize: function (set) {
