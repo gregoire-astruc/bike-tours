@@ -185,7 +185,7 @@ var jekyllMapping = (function () {
             if (settings.photosets) {
               while (settings.photosets.length > 0) {
                 var id = settings.photosets.pop();
-                var photoset = new OpenLayer.Vector("Photoset #" + id, {
+                var photoset = new OpenLayers.Layer.Vector("Photoset #" + id, {
                   protocol: new OpenLayers.Protocol.Script({
                     url: "http://api.flickr.com/services/rest/",
                     callbackKey: "jsoncallback",
