@@ -96,7 +96,7 @@ var jekyllMapping = (function () {
                     callbackKey: "jsoncallback",
                     params: {
                       method: "flickr.photosets.getPhotos",
-                      api_key: "{{ site.api_key }}",
+                      api_key: "{{ site.flickr_set.api_key }}",
                       photoset_id: id,
                       extras: "geo,url_t,url_o",
                       format: "json"
