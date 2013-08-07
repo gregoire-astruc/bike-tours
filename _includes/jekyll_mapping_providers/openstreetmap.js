@@ -103,7 +103,7 @@ var jekyllMapping = (function () {
                     },
                     format: new OpenLayers.Format.Flickr(),
                   }),
-                  strategies: [new Openlayers.Strategy.Fixed()],
+                  strategies: [new OpenLayers.Strategy.Fixed()],
                   styleMap: new OpenLayers.StyleMap({
                     "default": new OpenLayers.Style({ pointRadius: 10, externalGraphic: "${thumbnail}" }),
                   }),
@@ -135,7 +135,7 @@ var jekyllMapping = (function () {
 
                 var bounds = me.object.calculateBounds() || le.object.getDataExtent();
                 bounds.extend(le.object.getDataExtent());
-                me.object.zoomToExtent(le.object.getDataExtent(), true);
+                me.object.zoomToExtent(bounds, true);
               });
             });
 
